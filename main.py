@@ -217,5 +217,10 @@ def images(filename):
 def fonts(filename):
     return static_file(filename, root='static/fonts')
 
+@route('/')
+def root():
+    """ The pages need to be served too, so I added this.
+    """
+    return static_file('index.html', root='static')
 
 run(host='localhost', port=8080)

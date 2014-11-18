@@ -1,0 +1,40 @@
+/*
+.row {
+	float: left;
+	width: 20em;
+}
+*/
+.templates {
+	display: none;
+}
+
+/*
+.pixel_id, .advertiser_id {
+	float: left;
+	width: 0.5em;
+}
+*/
+/*
+.pixel_name, .adveriser_name, .advertiser_address, .adveriser_city {
+	float: left;
+	width: 1em;
+}
+*/
+
+.column {
+	float: left;
+	padding: 1em;
+	width: 30%;
+}
+
+#advertiser_container {
+	width: 30em;
+}
+
+.selected {
+	font-weight: bolder;
+}
+
+.name {
+	font-weight: bolder;	
+}

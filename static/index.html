@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Pixel Explorer</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+	<script src="fires.js"></script>
+	<script src="pixels.js"></script>
+	<script src="advertisers.js"></script>
+	<script src="page.js"></script>
+</head>
+<body onload="init()">
+	<!-- First paragraph is what gets shown in social networks preview -->
+	<h1>Pixel Explorer</h1>
+	<p>This is a mock interface to explore data pixels for an interview test.</p>
+	<div class="column">
+		<a href="#" onclick="get_advertisers()">Refresh Advertisers</a>
+		<div id="advertiser_container">
+			<p>Please, wait for the advertisers to load...</p>
+		</div>
+		<a href="#" onclick="add_advertiser(this)">Add Advertiser</a>
+	</div>
+	<div class="column">
+		<a href="#" onclick="get_pixels()">Refresh Pixels</a>
+		<div id="pixel_container">
+			<p>Select an advertiser to see their pixels.</p>
+		</div>
+	</div>
+	<div class="column">
+		<br/>
+		<div id="fire_container">
+			<p>Select a pixel to see its fires.</p>
+		</div>
+	</div>
+
+	<!-- hidden plug&play templates at end of file.
+	     This makes it easier for designers to work with the template -->
+	<div class="templates">
+		<div id="advertiser_row_template" class="row">
+			<p>
+				<a class="name" href="#" onclick="display_pixels(this)"><span class="advertiser_id">#</span>:<span class="advertiser_name">Name</span></a> <a href="#" onclick="edit_advertiser(this)">(edit)</a> <a href="#" onclick="delete_advertiser(this)">(delete)</a><br/>
+				<span class="advertiser_contact">Details</span>
+			</p>
+		</div>
+		<p id="no_pixels_notice">No pixels associated with this advertiser.</p>
+		<div id="pixel_row_template" class="row">
+			<p>
+				<a class="name" href="#" onclick="display_fires(this)"><span class="pixel_id">#</span>: <span class="pixel_name">Name</span></a> <a href="#" onclick="edit_advertiser(this)">(edit)</a> <a href="#" onclick="delete_pixel(this)">(delete)</a>
+			</p>
+		</div>
+		<p id="no_fires_notice">No fires associated with this pixel.</p>
+		<div id="fire_row_template" class="row">
+			<p>
+				<span class="fire_id">#</span>: <span class="date">dd/mm/yy</span> (<span class="fires">#</span>)
+			</p>
+		</div>
+		<form id="advertiser_form" action="#">
+			<input type="hidden" name="id">
+			name: <input type="text" name="name"><br/>
+			phone: <input type="text" name="phone"><br/>
+			address: <input type="text" name="address"><br/>
+			city: <input type="text" name="city"><br/>
+			postcode: <input type="text" name="post_code"><br/>
+			<a id="advertiser_submit" href="#" onclick="submit_advertiser(form)">Submit</a>
+		</form>
+		<form id="pixel_form">
+			<input type="hidden" name="id">
+			name: <input type="text" name="name"><br/>
+			advertiser: <input type="text" name="advertiser"><br/>
+			<a id="pixel_submit" href="#" onclick="form.submit()">Submit</a>
+		</form>
+	</div>
+</body>
+</html>
