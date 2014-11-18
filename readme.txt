@@ -1,8 +1,7 @@
-Thank you for taking the time to do this project.
-We believe in giving developers the freedom to express themselves, so with that in mind please complete this task
-exactly how you want to, don't feel constricted by the initial files.
+This project is the solution to a interview test for a digital marketing agency.
+They provided me with the server, and I am meant to develop the client.
 
-You will find in this folder a python web server and api, it gives you access to three entities:
+This project contains a python web server and api, it gives you access to three entities:
 Advertiser, Pixel and Pixel Fires.
 
 "Advertisers" own "Pixels", and "Pixels" have "Pixel Fires".
@@ -14,8 +13,9 @@ You will need the following Python PIP libraries to run the API:
 
 - SQLite
 - Python 2.7
--- Bottle
+-- bottle
 -- SQLAlchemy
+-- python-cjson
 
 To fill the database with dummy data run "python setup_db.py"
 Then to start the API run "python main.py"
@@ -41,6 +41,3 @@ DELETE
 /advertisers/{advertiser_id}
 
 visit http://localhost:8080/pixels/1 and http://localhost:8080/advertisers/1 to get started.
-
-We suggest spending a couple of evenings on this project, if you prefer to use a public repository like GitHub
-to do your work this would be very useful for us.
