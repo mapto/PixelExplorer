@@ -1,14 +1,21 @@
 var pixels = {};
-var pixel_container;
+var pixel_container;  // initialised in page.js
+var seleted_pixel = null;
 
 function clear_pixel_container() {
 	pixel_container.html('');
+	seleted_pixel = null;
+}
+
+function reset_pixels() {
+	clear_pixel_container();
+	fire_container.html($(document).find('#select_pixel_notice').clone());
 }
 
 function add_pixel_line(pixel) {
 	pixel_id = pixel['id'];
 	// advertiser_id = pixel['advertiser_id'];
-	newline = $(document).find('#pixel_row_template').clone().attr('id', 'pixel_row' + id);
+	newline = $(document).find('#pixel_template').clone().attr('id', 'pixel' + id);
 	newline.find('.pixel_id').html(pixel_id); 
 	newline.find('.pixel_name').html(pixel['name']); 
 	// newline.find('.advertiser_id').html(advertisers[advertiser_id]['name']); 
@@ -16,14 +23,14 @@ function add_pixel_line(pixel) {
 }
 
 // Takes the element that made the request in order to identify which advertiser it belongs to
-function display_fires(href) {
+function select_pixel(href) {
 	pixel_id = $(href).parent().find('.pixel_id')[0].innerHTML;
 
 	get_fires(pixel_id);
 }
 
 function update_pixels(json) {
-	// clear_pixel_container();
+	if (json.success != true) alert('Warning: Pixels server request failed!');
 
 	for (var p in json.data) {
 		var pixel_id = json.data[p]['id'];
@@ -33,6 +40,9 @@ function update_pixels(json) {
 
 		pixels[advertiser_id][pixel_id] = json.data[p];
 	}
+
+	// TODO update pixel display
+	if (selected_advertiser != null) {}
 }
 
 function get_pixels() {
@@ -55,7 +65,81 @@ function delete_pixel(href) {
 		type: 'DELETE',
 		url: '/pixels/' + ref_id,
 	    dataType: 'json',
-		success: update_pixels,
+		success: handle_pixel_response,
 	});
 }
 
+function edit_pixel(href) {
+	var pixel_root = $(href).parent();
+	var pixel_id = pixel_root.find('.pixel_id')[0].innerHTML;
+	var form_id = 'pixel_form' + pixel_id;
+	var replica = null
+
+	if ($(pixel_root).find('#' + form_id).length == 0) {
+		replica = $('#pixel_form').clone();
+		replica.attr('id', form_id);
+		pixel_root.append(replica);		
+	} else {
+		replica = $(pixel_root).find('#' + form_id);
+	}
+
+	form = replica[0];
+
+	$(form).attr('method', 'PUT');
+	$('#pixel_submit').html('Update');
+
+	form.id.value = pixel_id;
+	form.name.value = pixels[selected_advertiser][pixel_id].name;  // currently visible pixels belong to the selected advertiser
+	form.advertiser.value = selected_advertiser;
+	console.log($(document).find('.selected'));
+}
+
+function add_pixel(href) {
+	var pixel_root = $(href).parent();
+	var pixel_id = '_new';
+	var form_id = 'pixel_form' + pixel_id
+	var replica = null;
+
+	if ($(pixel_root).find('#' + form_id).length == 0) {
+		replica = $('#pixel_form').clone();
+		replica.attr('id', form_id);
+		pixel_root.append(replica);
+	} else {
+		replica = $(pixel_root).find('#' + form_id);
+	}
+
+	form = replica[0];
+
+	form.advertiser.value = selected_advertiser;
+	$(form).attr('method', 'POST');
+	$('#pixel_submit').html('Add');
+}
+
+function handle_pixel_response(json) {
+	if (json.success != true) alert('Warning: Pixels server request failed!');
+
+	get_pixels();
+}
+
+function submit_pixel(form) {
+	// Upon PUT server does not read post code
+	console.log($(form).attr('method'));
+
+	if ($(form).attr('method') == 'PUT') {
+		$.ajax({
+			type: 'PUT',
+			url: '/pixels/' + form.id.value,
+		    dataType: 'json',
+		    data: {id: form.id.value, name: form.name.value, advertiser_id: form.advertiser.value},
+			success: handle_pixel_response
+		});	
+	} else {
+		$.ajax({
+			type: 'POST',
+			url: '/pixels',
+		    dataType: 'json',
+		    data: {name: form.name.value, advertiser_id: form.advertiser.value},
+			success: update_pixels
+		});	
+	}
+}

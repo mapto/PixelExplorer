@@ -15,44 +15,43 @@
 	<h1>Pixel Explorer</h1>
 	<p>This is a mock interface to explore data pixels for an interview test.</p>
 	<div class="column">
-		<a href="#" onclick="get_advertisers()">Refresh Advertisers</a>
 		<div id="advertiser_container">
 			<p>Please, wait for the advertisers to load...</p>
 		</div>
 		<a href="#" onclick="add_advertiser(this)">Add Advertiser</a>
 	</div>
 	<div class="column">
-		<a href="#" onclick="get_pixels()">Refresh Pixels</a>
 		<div id="pixel_container">
 			<p>Select an advertiser to see their pixels.</p>
 		</div>
+		<a href="#" onclick="add_pixel(this)">Add Pixel</a>
 	</div>
 	<div class="column">
 		<br/>
 		<div id="fire_container">
-			<p>Select a pixel to see its fires.</p>
 		</div>
 	</div>
 
 	<!-- hidden plug&play templates at end of file.
 	     This makes it easier for designers to work with the template -->
 	<div class="templates">
-		<div id="advertiser_row_template" class="row">
+		<div id="advertiser_template" class="row">
 			<p>
-				<a class="name" href="#" onclick="display_pixels(this)"><span class="advertiser_id">#</span>:<span class="advertiser_name">Name</span></a> <a href="#" onclick="edit_advertiser(this)">(edit)</a> <a href="#" onclick="delete_advertiser(this)">(delete)</a><br/>
+				<a class="name" href="#" onclick="select_advertiser(this)">[<span class="advertiser_id">#</span>] <span class="advertiser_name">Name</span></a> <a href="#" onclick="edit_advertiser(this)">(edit)</a> <a href="#" onclick="delete_advertiser(this)">(delete)</a><br/>
 				<span class="advertiser_contact">Details</span>
 			</p>
 		</div>
 		<p id="no_pixels_notice">No pixels associated with this advertiser.</p>
-		<div id="pixel_row_template" class="row">
+		<div id="pixel_template" class="row">
 			<p>
-				<a class="name" href="#" onclick="display_fires(this)"><span class="pixel_id">#</span>: <span class="pixel_name">Name</span></a> <a href="#" onclick="edit_advertiser(this)">(edit)</a> <a href="#" onclick="delete_pixel(this)">(delete)</a>
+				<a class="name" href="#" onclick="select_pixel(this)">[<span class="pixel_id">#</span>] <span class="pixel_name">Name</span></a> <a href="#" onclick="edit_pixel(this)">(edit)</a> <a href="#" onclick="delete_pixel(this)">(delete)</a>
 			</p>
 		</div>
 		<p id="no_fires_notice">No fires associated with this pixel.</p>
-		<div id="fire_row_template" class="row">
+		<p id="select_pixel_notice">Select a pixel to see its fires.</p>
+		<div id="fire_template" class="row">
 			<p>
-				<span class="fire_id">#</span>: <span class="date">dd/mm/yy</span> (<span class="fires">#</span>)
+				[<span class="fire_id">#</span>] <span class="date">dd/mm/yy</span> (Count: <span class="fires">#</span>)
 			</p>
 		</div>
 		<form id="advertiser_form" action="#">
@@ -66,9 +65,9 @@
 		</form>
 		<form id="pixel_form">
 			<input type="hidden" name="id">
+			<input type="hidden" name="advertiser">
 			name: <input type="text" name="name"><br/>
-			advertiser: <input type="text" name="advertiser"><br/>
-			<a id="pixel_submit" href="#" onclick="form.submit()">Submit</a>
+			<a id="pixel_submit" href="#" onclick="submit_pixel(form)">Submit</a>
 		</form>
 	</div>
 </body>

@@ -24,7 +24,7 @@
 .column {
 	float: left;
 	padding: 1em;
-	width: 30%;
+	width: 20%;
 }
 
 #advertiser_container {
@@ -37,4 +37,8 @@
 
 .name {
 	font-weight: bolder;	
+}
+
+.selected {
+	background-color: lightgrey;
 }

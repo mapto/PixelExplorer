@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from bottle import route, run, template, static_file, get
@@ -107,6 +109,7 @@ def getone_update_advertiser(id):
         advertiser.address = form['address']
         advertiser.city = form['city']
         advertiser.tel = form['tel']
+        advertiser.post_code = form['post_code']
 
         session.commit()
 
