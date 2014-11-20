@@ -12,14 +12,13 @@ function add_pixel_line(pixel) {
 	newline = $(document).find('#pixel_template').clone().attr('id', 'pixel' + pixel_id);
 	newline.find('.pixel_id').html(pixel_id); 
 	newline.find('.pixel_name').html(pixel['name']); 
-	console.log(newline);
 	pixel_container.append(newline);
 }
 
 function deselect_pixels() {
 	clear_fire_container();
 	if (selected_pixel != null) {
-		$('#pixel' + selected_pixel).removeClass('colour-fire');
+		$('#pixel' + selected_pixel).removeClass('colour-fire selected');
 		$('#pixel' + selected_pixel).addClass('colour-pixel');
 	}
 }
@@ -30,10 +29,8 @@ function select_pixel(href) {
 
 	// dependency on DOM
 	selected_pixel = $(href).parent().find('.pixel_id')[0].innerHTML;
-	console.log(selected_pixel);
 	$('#pixel' + selected_pixel).removeClass('colour-pixel');
-	$('#pixel' + selected_pixel).addClass('colour-fire');
-	console.log($('#pixel' + selected_pixel));
+	$('#pixel' + selected_pixel).addClass('colour-fire selected');
 
 	get_fires(selected_pixel);
 }
@@ -117,12 +114,10 @@ function edit_pixel(href) {
 	form = replica[0];
 
 	$(form).attr('method', 'PUT');
-	//$('#pixel_submit').html('Update');
 
 	form.id.value = pixel_id;
 	form.name.value = pixels[selected_advertiser][pixel_id].name;  // currently visible pixels belong to the selected advertiser
 	form.advertiser.value = selected_advertiser;
-	console.log($(document).find('.selected'));
 }
 
 function add_pixel(href) {
@@ -154,7 +149,6 @@ function handle_pixel_response(json) {
 
 function submit_pixel(form) {
 	// Upon PUT server does not read post code
-	console.log($(form).attr('method'));
 
 	if ($(form).attr('method') == 'PUT') {
 		$.ajax({

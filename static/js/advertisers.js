@@ -65,8 +65,7 @@ function get_advertisers() {
 function deselect_advertisers() {
 	clear_pixel_container();
 	if (selected_advertiser != null) {
-		$('#advertiser' + selected_advertiser).removeClass('colour-pixel');
-		$('#advertiser' + selected_advertiser).addClass('colour-advertiser');
+		$('#advertiser' + selected_advertiser).removeClass('colour-pixel selected');
 	}
 }
 
@@ -78,8 +77,7 @@ function select_advertiser(href) {
 	var advertiser_root = $(href).parent();
 	selected_advertiser = $(advertiser_root).find('.advertiser_id')[0].innerHTML;
 	
-	$(advertiser_root).parent().addClass('colour-pixel');
-	$(advertiser_root).parent().removeClass('colour-advertiser');
+	$(advertiser_root).parent().addClass('colour-pixel selected');
 
 	show_pixels();
 }
@@ -116,7 +114,6 @@ function edit_advertiser(href) {
 	form = replica[0];
 
 	$(form).attr('method', 'PUT');
-	//$('#advertiser_submit').html('Update');
 
 	form.id.value = advertiser_id;
 	form.name.value = advertisers[advertiser_id].name;
@@ -127,7 +124,6 @@ function edit_advertiser(href) {
 }
 
 function add_advertiser(href) {
-//	var advertiser_root = $(href).parent();
 	var advertiser_root = $('#advertisers');
 	var advertiser_id = '_new';
 	var form_id = 'advertiser_form' + advertiser_id

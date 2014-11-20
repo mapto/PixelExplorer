@@ -1,48 +1,53 @@
-/*
-.row {
-	float: left;
-	width: 20em;
+@font-face {
+    font-family: 'SourceSansPro';
+    src:url('https://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff');
 }
-*/
-.templates {
+
+.templates, .advertiser_id, .pixel_id, .fire_id {
 	display: none;
 }
 
-/*
-.pixel_id, .advertiser_id {
-	float: left;
-	width: 0.5em;
+#container {
+	width: 60em;
+	margin: 0 auto;
+	border: 1px solid black;
+	background-color: lightyellow;
+	display: table; 
+	min-height: 20em;
+	overflow: hidden;
+    font-family:'SourceSansPro', sans-serif;
 }
-*/
-/*
-.pixel_name, .adveriser_name, .advertiser_address, .adveriser_city {
-	float: left;
-	width: 1em;
+
+#advertisers, #pixels {
+	width: 22em;
 }
-*/
+
+#fires {
+	width: 13em;
+}
 
 .column {
+	padding-left: 1em;
 	float: left;
-	width: 20%;
+	height: 100%;
+	overflow: overlay; 
 }
 
 .selected {
-	font-weight: bolder;
+	margin: 0.5em 0em 0.5em 0.5em;
+	border-right-width: 0px;
 }
 
 .name {
-	font-weight: bolder;	
+	font-size: larger;	
 }
 
-.colour-advertiser {
+.colour-advertiser, .colour-fire {
 	background-color: lightblue;
 }
 
 .colour-pixel {
-	background-color: lightyellow;
-}
-.colour-fire {
-	background-color: lightskyblue;
+	background-color: lightgoldenrodyellow;
 }
 
 p, #advertiser_add, #pixel_add {
@@ -56,4 +61,26 @@ p, #advertiser_add, #pixel_add {
 
 form {
 	text-align: right;
+	width: 90%;
+	overflow: overlay;
+}
+
+.row {
+	border-top-left-radius: 0.4em;
+	border-bottom-left-radius: 0.4em;
+	border: dotted black;
+	border-width: 1px 0px 1px 1px;
+}
+
+.row:hover {
+	border-top-left-radius: 0.4em;
+	border-bottom-left-radius: 0.4em;
+	border: solid black;
+	border-width: 1px 0px 1px 1px;
+}
+
+.button {
+	text-transform: uppercase;
+	font-size: smaller;
+	float: right;
 }

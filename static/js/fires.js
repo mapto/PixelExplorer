@@ -6,12 +6,10 @@ function clear_fire_container() {
 
 function add_fire_line(fire) {
 	fire_id = fire['id'];
-	// pixel_id = fire['pixel_id'];
 	newline = $(document).find('#fire_template').clone().attr('id', 'fire_row' + id);
 	newline.find('.fire_id').html(fire_id); 
 	newline.find('.fires').html(fire['fires']); 
-	newline.find('.date').html(new Date(fire['date']).toUTCString()); 
-	// newline.find('.advertiser_id').html(advertisers[advertiser_id]['name']); 
+	newline.find('.date').html(new Date(fire['date'] * 1000).toLocaleDateString());
 	fire_container.append(newline);
 }
 
