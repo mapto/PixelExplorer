@@ -23,12 +23,7 @@
 
 .column {
 	float: left;
-	padding: 1em;
 	width: 20%;
-}
-
-#advertiser_container {
-	width: 30em;
 }
 
 .selected {
@@ -39,6 +34,26 @@
 	font-weight: bolder;	
 }
 
-.selected {
-	background-color: lightgrey;
+.colour-advertiser {
+	background-color: lightblue;
+}
+
+.colour-pixel {
+	background-color: lightyellow;
+}
+.colour-fire {
+	background-color: lightskyblue;
+}
+
+p, #advertiser_add, #pixel_add {
+	margin: 0em;
+	padding: 0.5em;
+}
+
+#advertiser_add, #pixel_add {
+	float: right;
+}
+
+form {
+	text-align: right;
 }

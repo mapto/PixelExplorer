@@ -7,16 +7,27 @@ function update_advertisers(json) {
 
 	clear_advertiser_container();
 
+	var empty = true;
 	for (var a in json.data) {
 		add_advertiser_line(json.data[a]);
 		advertisers[json.data[a]['id']] = json.data[a];
+		empty = false;
 	}
+	if (empty) {
+		advertiser_container.html($(document).find('#no_advertisers_notice').clone());		
+	} else {
+		pixel_container.html($(document).find('#select_advertiser_notice').clone());				
+	}
+
+	$('#pixel_add').hide();
+	fire_container.html('');	
 }
 
 function clear_advertiser_container() {
 	advertisers = {};
 	advertiser_container.html('');
 	selected_advertiser = null;
+	clear_pixel_container();
 }
 
 function add_advertiser_line(advertiser) {
@@ -52,9 +63,10 @@ function get_advertisers() {
 }
 
 function deselect_advertisers() {
-	reset_pixels();
+	clear_pixel_container();
 	if (selected_advertiser != null) {
-		$('#advertiser' + selected_advertiser).removeClass('selected');
+		$('#advertiser' + selected_advertiser).removeClass('colour-pixel');
+		$('#advertiser' + selected_advertiser).addClass('colour-advertiser');
 	}
 }
 
@@ -65,18 +77,11 @@ function select_advertiser(href) {
 	// dependency on DOM
 	var advertiser_root = $(href).parent();
 	selected_advertiser = $(advertiser_root).find('.advertiser_id')[0].innerHTML;
-	$(advertiser_root).parent().addClass('selected');
+	
+	$(advertiser_root).parent().addClass('colour-pixel');
+	$(advertiser_root).parent().removeClass('colour-advertiser');
 
-	clear_pixel_container();
-
-	if (pixels[selected_advertiser] == undefined || pixels[selected_advertiser].length == 0) {
-		pixel_container.html($(document).find('#no_pixels_notice').clone());
-		return;
-	} 
-
-	for (var p in pixels[selected_advertiser]) {
-		add_pixel_line(pixels[selected_advertiser][p]);
-	}
+	show_pixels();
 }
 
 // Takes the element that made the request in order to identify which advertiser it belongs to
@@ -111,9 +116,7 @@ function edit_advertiser(href) {
 	form = replica[0];
 
 	$(form).attr('method', 'PUT');
-	// form.action = "/advertisers/" + advertiser_id;
-	$('#advertiser_submit').html('Update');
-	//$('#advertiser_submit').click('form.submit()');	
+	//$('#advertiser_submit').html('Update');
 
 	form.id.value = advertiser_id;
 	form.name.value = advertisers[advertiser_id].name;
@@ -124,7 +127,8 @@ function edit_advertiser(href) {
 }
 
 function add_advertiser(href) {
-	var advertiser_root = $(href).parent();
+//	var advertiser_root = $(href).parent();
+	var advertiser_root = $('#advertisers');
 	var advertiser_id = '_new';
 	var form_id = 'advertiser_form' + advertiser_id
 	var replica = null;

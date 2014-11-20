@@ -1,48 +1,79 @@
 var pixels = {};
 var pixel_container;  // initialised in page.js
-var seleted_pixel = null;
+var selected_pixel = null;
 
 function clear_pixel_container() {
 	pixel_container.html('');
 	seleted_pixel = null;
 }
 
-function reset_pixels() {
-	clear_pixel_container();
-	fire_container.html($(document).find('#select_pixel_notice').clone());
-}
-
 function add_pixel_line(pixel) {
 	pixel_id = pixel['id'];
-	// advertiser_id = pixel['advertiser_id'];
-	newline = $(document).find('#pixel_template').clone().attr('id', 'pixel' + id);
+	newline = $(document).find('#pixel_template').clone().attr('id', 'pixel' + pixel_id);
 	newline.find('.pixel_id').html(pixel_id); 
 	newline.find('.pixel_name').html(pixel['name']); 
-	// newline.find('.advertiser_id').html(advertisers[advertiser_id]['name']); 
+	console.log(newline);
 	pixel_container.append(newline);
+}
+
+function deselect_pixels() {
+	clear_fire_container();
+	if (selected_pixel != null) {
+		$('#pixel' + selected_pixel).removeClass('colour-fire');
+		$('#pixel' + selected_pixel).addClass('colour-pixel');
+	}
 }
 
 // Takes the element that made the request in order to identify which advertiser it belongs to
 function select_pixel(href) {
-	pixel_id = $(href).parent().find('.pixel_id')[0].innerHTML;
+	deselect_pixels();
 
-	get_fires(pixel_id);
+	// dependency on DOM
+	selected_pixel = $(href).parent().find('.pixel_id')[0].innerHTML;
+	console.log(selected_pixel);
+	$('#pixel' + selected_pixel).removeClass('colour-pixel');
+	$('#pixel' + selected_pixel).addClass('colour-fire');
+	console.log($('#pixel' + selected_pixel));
+
+	get_fires(selected_pixel);
 }
 
-function update_pixels(json) {
+// Gets from server
+function fetch_pixels(json) {
 	if (json.success != true) alert('Warning: Pixels server request failed!');
 
 	for (var p in json.data) {
 		var pixel_id = json.data[p]['id'];
 		var advertiser_id = json.data[p]['advertiser_id'];
 		
-		if (pixels[advertiser_id] == undefined) pixels[advertiser_id] = {};
+		if (pixels[advertiser_id] == undefined) {
+			pixels[advertiser_id] = {};
+		}
 
 		pixels[advertiser_id][pixel_id] = json.data[p];
 	}
+}
 
-	// TODO update pixel display
-	if (selected_advertiser != null) {}
+// Updates display
+function show_pixels() {
+	clear_pixel_container();
+
+	var empty = true;
+	for (var p in pixels[selected_advertiser]) {
+		add_pixel_line(pixels[selected_advertiser][p]);
+		empty = false;
+	}
+	if (empty) {
+		pixel_container.html($(document).find('#no_pixels_notice').clone());		
+	}
+
+	$('#pixel_add').show();
+	fire_container.html($(document).find('#select_pixel_notice').clone());		
+}
+
+function update_pixels() {
+	get_pixels();
+	show_pixels();
 }
 
 function get_pixels() {
@@ -50,7 +81,7 @@ function get_pixels() {
 		type: 'GET',
 		url: '/pixels',
 	    dataType: 'json',
-		success: update_pixels,
+		success: fetch_pixels,
 	});
 }
 
@@ -86,7 +117,7 @@ function edit_pixel(href) {
 	form = replica[0];
 
 	$(form).attr('method', 'PUT');
-	$('#pixel_submit').html('Update');
+	//$('#pixel_submit').html('Update');
 
 	form.id.value = pixel_id;
 	form.name.value = pixels[selected_advertiser][pixel_id].name;  // currently visible pixels belong to the selected advertiser
