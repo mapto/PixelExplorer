@@ -18,7 +18,8 @@ You will need the following Python PIP libraries to run the API:
 -- python-cjson
 
 To fill the database with dummy data run "python setup_db.py"
-Then to start the API run "python main.py"
+Then to start the API run "python main.py" and open http://localhost:8080
+from your browser. All major browsers should be supported.
 
 The API will give you access to the following endpoints:
 
